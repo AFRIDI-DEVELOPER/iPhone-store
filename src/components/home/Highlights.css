@@ -1,0 +1,111 @@
+.highlights-section {
+    padding: 4rem 0;
+    background: var(--darker);
+    border-top: 1px solid rgba(232, 209, 197, 0.06);
+}
+
+.section-header {
+    margin-bottom: 2.5rem;
+}
+
+.section-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.title-highlight {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.1;
+}
+
+.title-sub {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 600;
+    color: var(--gray-400);
+    line-height: 1.2;
+}
+
+/* Services Grid */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+}
+
+.service-card {
+    background: var(--gradient-card);
+    border-radius: var(--radius-xl);
+    padding: 1.75rem;
+    border: 1px solid rgba(232, 209, 197, 0.06);
+    transition: all var(--transition-base);
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(232, 209, 197, 0.12);
+    box-shadow: var(--shadow-lg);
+}
+
+.service-card-highlight {
+    background: linear-gradient(135deg, var(--dark) 0%, rgba(69, 40, 41, 0.8) 100%);
+    border-color: rgba(232, 209, 197, 0.1);
+}
+
+.service-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.service-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.service-description {
+    font-size: 0.875rem;
+    color: var(--gray-400);
+    line-height: 1.5;
+    margin: 0;
+    flex: 1;
+}
+
+.service-link {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color var(--transition-base);
+}
+
+.service-link:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-card {
+        min-height: auto;
+    }
+}
