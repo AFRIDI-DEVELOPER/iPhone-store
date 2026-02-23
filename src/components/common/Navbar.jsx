@@ -17,11 +17,7 @@ const Navbar = () => {
                         <Link to="/about" className="nav-link">About</Link>
                     </div>
 
-                    <div className="navbar-actions">
-                        <a href="http://localhost:5174" className="btn btn-primary btn-sm">
-                            Admin
-                        </a>
-                    </div>
+
                 </div>
             </div>
         </nav>
