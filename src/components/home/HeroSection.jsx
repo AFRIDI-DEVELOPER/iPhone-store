@@ -84,7 +84,7 @@ const HeroSection = () => {
                 <div className="category-row">
                     {categories.map((cat, index) => (
                         <Link
-                            to="/shop"
+                            to={`/shop?model=${encodeURIComponent(cat.name)}`}
                             key={index}
                             className="category-item"
                         >

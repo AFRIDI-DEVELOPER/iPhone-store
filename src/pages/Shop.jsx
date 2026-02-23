@@ -1,26 +1,27 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useSearchParams, Link } from 'react-router-dom';
 import { getProducts } from '../services/productService';
 import ProductGrid from '../components/shop/ProductGrid';
 import './Shop.css';
 
 const Shop = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const modelFilter = searchParams.get('model') || '';
+
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [filters, setFilters] = useState({
-        search: '',
-        model: 'all',
-        storage: 'all',
-        condition: 'all'
-    });
 
     useEffect(() => {
         loadProducts();
-    }, [filters]);
+    }, [modelFilter]);
 
     const loadProducts = async () => {
         try {
             setLoading(true);
+            const filters = modelFilter
+                ? { search: modelFilter }
+                : {};
             const data = await getProducts(filters);
             setProducts(data);
         } catch (err) {
@@ -30,18 +31,27 @@ const Shop = () => {
         }
     };
 
-    const handleFilterChange = (key, value) => {
-        setFilters(prev => ({ ...prev, [key]: value }));
+    const clearFilter = () => {
+        setSearchParams({});
     };
 
     return (
         <div className="shop-page">
             <div className="shop-header">
                 <div className="container">
-                    <h1 className="shop-title">Browse Our Collection</h1>
+                    <h1 className="shop-title">
+                        {modelFilter ? modelFilter : 'Browse Our Collection'}
+                    </h1>
                     <p className="shop-subtitle">
-                        Find your perfect iPhone from our curated selection
+                        {modelFilter
+                            ? `Showing results for ${modelFilter}`
+                            : 'Find your perfect iPhone from our curated selection'}
                     </p>
+                    {modelFilter && (
+                        <button className="btn-clear-filter" onClick={clearFilter}>
+                            ← Show All Products
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -53,7 +63,7 @@ const Shop = () => {
                                 {loading ? 'Loading...' : `${products.length} products found`}
                             </p>
                         </div>
-                        <ProductGrid products={products} loading={loading} />
+                        <ProductGrid products={products} loading={loading} modelFilter={modelFilter} />
                     </main>
                 </div>
             </div>

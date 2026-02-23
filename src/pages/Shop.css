@@ -19,6 +19,27 @@
     font-size: 1.125rem;
 }
 
+.btn-clear-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    padding: 0.625rem 1.5rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 2rem;
+    color: var(--gray-200);
+    font-size: 0.938rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-clear-filter:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
 .shop-content {
     display: grid;
     grid-template-columns: 1fr;
