@@ -73,10 +73,46 @@ const ProductDetails = () => {
         );
     }
 
-    // Generate product images array (using main image and variations)
-    const productImages = product.images && product.images.length > 0
-        ? product.images
-        : [product.image, product.image, product.image, product.image, product.image];
+    // Gallery images mapped by model keyword for variety
+    const galleryMap = {
+        '17 pro max': ['/iphones/17promax.jpg', '/iphones/iphone-17-pro-max.png', '/iphones/iphone-17-pro.png', '/iphones/iphone-17.png'],
+        '17 pro': ['/iphones/17pro.jpg', '/iphones/iphone-17-pro.png', '/iphones/iphone-17-pro-max.png', '/iphones/iphone-17.png'],
+        '17': ['/iphones/iphone-17.png', '/iphones/17pro.jpg', '/iphones/iphone-17-pro.png', '/iphones/17air.jpeg'],
+        '16 pro max': ['/iphones/16promax.jpeg', '/iphones/iphone-16-pro-max.png', '/iphones/16promax.jpg', '/iphones/iphone-16-pro.png'],
+        '16 pro': ['/iphones/16pro.jpeg', '/iphones/iphone-16-pro.png', '/iphones/iphone-16-pro-max.png', '/iphones/iphone-16.png'],
+        '16': ['/iphones/16.jpeg', '/iphones/iphone-16.png', '/iphones/iphone-16-pro.png', '/iphones/16pro.jpeg'],
+        '15 pro max': ['/iphones/15promax.jpeg', '/iphones/iphone-15-pro-max.png', '/iphones/iphone-15-pro.png', '/iphones/iphone-15-pro-blue.png'],
+        '15 pro': ['/iphones/15pro.jpg', '/iphones/iphone-15-pro.png', '/iphones/iphone-15-pro-blue.png', '/iphones/iphone-15-pro-max.png'],
+        '15 plus': ['/iphones/15plus.jpeg', '/iphones/iphone-15.png', '/iphones/iphone-15-blue.png', '/iphones/iphone-15-pink.png'],
+        '15': ['/iphones/iphone-15.png', '/iphones/iphone-15-blue.png', '/iphones/iphone-15-pink.png', '/iphones/iphone-15-pro.png'],
+        '14 pro max': ['/iphones/14promax.jpeg', '/iphones/iphone-14.png', '/iphones/14pro.png', '/iphones/14.webp'],
+        '14 pro': ['/iphones/14pro.png', '/iphones/iphone-14.png', '/iphones/14promax.jpeg', '/iphones/14.webp'],
+        '14': ['/iphones/14.webp', '/iphones/iphone-14.png', '/iphones/14pro.png', '/iphones/14promax.jpeg'],
+        '13': ['/iphones/iphone-13.png', '/iphones/iphone-12.png', '/iphones/iphone-14.png', '/iphones/iphone-15.png'],
+        '12': ['/iphones/iphone-12.png', '/iphones/iphone-13.png', '/iphones/iphone-14.png', '/iphones/iphone-15.png'],
+        'se': ['/iphones/se.png', '/iphones/iphone-se.png', '/iphones/iphone-12.png', '/iphones/iphone-13.png'],
+    };
+
+    // Build the gallery: cover image first, then model-specific extras
+    const getGalleryImages = () => {
+        if (product.images && product.images.length > 1) {
+            // If Supabase provides multiple images, use them with cover first
+            const imgs = [product.image, ...product.images.filter(img => img !== product.image)];
+            return imgs.slice(0, 5);
+        }
+        const modelLower = (product.model || product.name || '').toLowerCase();
+        // Match from most specific to least specific
+        const keys = Object.keys(galleryMap).sort((a, b) => b.length - a.length);
+        for (const key of keys) {
+            if (modelLower.includes(key)) {
+                const extras = galleryMap[key].filter(img => img !== product.image);
+                return [product.image, ...extras].slice(0, 5);
+            }
+        }
+        return [product.image];
+    };
+
+    const productImages = getGalleryImages();
 
     return (
         <section className="product-details-section">
